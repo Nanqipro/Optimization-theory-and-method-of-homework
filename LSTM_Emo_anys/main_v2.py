@@ -28,7 +28,7 @@ embedding_pretrained = \
 embed = embedding_pretrained.size(1)        # 词向量维度
 dropout = 0.5                               # 随机丢弃
 num_classes = 2                             # 类别数
-num_epochs = 200                             # epoch数，适当减少以节省时间
+num_epochs = 3                             # epoch数，适当减少以节省时间
 batch_size = 128                            # mini-batch大小
 pad_size = 50                               # 每句话处理成的长度(短填长切)
 learning_rate = 1e-3                        # 学习率
@@ -149,7 +149,7 @@ def init_network(model, method='xavier', exclude='embedding'):
             else:
                 pass
 
-def plot_acc(train_acc, save_path="results/acc.png"):
+def plot_acc(train_acc, save_path="results00/acc.png"):
     sns.set(style='darkgrid')
     plt.figure(figsize=(10, 7))
     plt.plot(list(range(len(train_acc))), train_acc, alpha=0.9, linewidth=2, label='Train Accuracy')
@@ -160,7 +160,7 @@ def plot_acc(train_acc, save_path="results/acc.png"):
     plt.savefig(save_path, dpi=400)
     plt.close()
 
-def plot_loss(train_loss, save_path="results/loss.png"):
+def plot_loss(train_loss, save_path="results00/loss.png"):
     sns.set(style='darkgrid')
     plt.figure(figsize=(10, 7))
     plt.plot(list(range(len(train_loss))), train_loss, alpha=0.9, linewidth=2, label='Train Loss')
@@ -171,7 +171,7 @@ def plot_loss(train_loss, save_path="results/loss.png"):
     plt.savefig(save_path, dpi=400)
     plt.close()
 
-def plot_roc_curve(fpr, tpr, auc_score, save_path="results/roc_curve.png"):
+def plot_roc_curve(fpr, tpr, auc_score, save_path="results00/roc_curve.png"):
     plt.figure()
     plt.plot(fpr, tpr, color='darkorange', lw=2, label='ROC curve (AUC = %0.2f)' % auc_score)
     plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
@@ -184,7 +184,7 @@ def plot_roc_curve(fpr, tpr, auc_score, save_path="results/roc_curve.png"):
     plt.savefig(save_path, dpi=400)
     plt.close()
 
-def result_test(real, pred, save_folder="results"):
+def result_test(real, pred, save_folder="results00"):
     # Calculate confusion matrix
     cv_conf = confusion_matrix(real, pred)
     acc = accuracy_score(real, pred)
@@ -299,8 +299,8 @@ def train(model, dataloaders, optimizer_type='adam'):
 
         print(f"Epoch {i+1}/{num_epochs} - train_loss: {train_loss:.3f}, train_acc: {train_acc:.2f}, dev_loss: {dev_loss:.3f}, dev_acc: {dev_acc:.2f}")
 
-    plot_acc(plot_train_acc, save_path=f"results/acc_{optimizer_type}.png")
-    plot_loss(plot_train_loss, save_path=f"results/loss_{optimizer_type}.png")
+    plot_acc(plot_train_acc, save_path=f"results00/acc_{optimizer_type}.png")
+    plot_loss(plot_train_loss, save_path=f"results00/loss_{optimizer_type}.png")
 
     # Final Evaluation on Test Data
     model.load_state_dict(torch.load(save_path))
